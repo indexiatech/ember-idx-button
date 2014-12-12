@@ -1,0 +1,121 @@
+<div class="container">
+
+<h1>Button</h1>
+
+<p>
+A clickable component rendered as an html <i>button</i> tag that has a text and optionally may have an icon,
+It is smart enough to avoid bioplate code required to change its state when buttons execute asynchronous calls.
+</p>
+
+<h4> Simplest form - a button with a title</h4>
+
+<pre><code class="handlebars">\{{em-button default="Click Me"}}</code></pre>
+
+<p>
+<div class="well">{{em-button default="Click Me"}}</div>
+</p>
+
+
+<h4> With an Icon </h4>
+<p>
+A button may also have an icon, if the <i>icon-classes</i> property is set on the <i>\{{em-button}}</i> tag then an extra <i>&lt;i&gt;</i> tag will be rendered with the given classes.
+</p>
+
+
+<pre>
+    <code class="handlebars">\{{em-button icon-classes="fa fa-trash-o" default="With Icon"}}</code>
+</pre>
+
+<p><div class="well">
+{{em-button icon-classes="fa fa-trash-o" default="With Icon"}}
+</p></div>
+
+<h4> Styles </h4>
+<p>
+You can of course add your own classes to the button to style it differently by setting the <i>class</i> property
+</p>
+
+<pre>
+    <code class="handlebars">\{{em-button class="btn btn-danger" default="Delete"}}</code>
+</pre>
+
+<p><div class="well">
+{{em-button class="btn btn-danger" default="Delete"}}
+</p></div>
+
+
+<h4> Trigger Action </h4>
+
+<p>
+Simply bind an action controller to the button by setting the <i>on-click</i> property.
+</p>
+
+<pre>
+    <code class="handlebars">\{{em-button on-click='onClick' default="Click Me!"}} {{message}}</code>
+</pre>
+
+<p><div class="well">
+{{em-button on-click='onClick' default="Click Me!"}} {{message}}
+</p></div>
+
+<h4>Async</h4>
+
+<p>
+When a button executes an async call (a promise), it may need to:
+<ol>
+    <li>Disable button to avoid concurrent calls during the execution of an async call.</li>
+    <li><i>Optionally</i> change button's title and/or its icon when the async call is executing, ended successfully or rejected.</li>
+</ol>
+</p>
+
+<p>Simply bind the button to a promise and everything will happen</p>
+
+<pre>
+    <code class="handlebars">\{{em-button on-click='makeAsync' default='Happy Submit' icon-default='fa fa-trash-o' icon-executing='fa fa-spinner fa-spin' icon-resolved='fa fa-check' executing='Submitting' resolved='Completed' rejected="Failed"}}</code>
+</pre>
+
+
+<p><div class="well">
+{{em-button on-click='makeAsync' default='Happy Submit' icon-default='fa fa-trash-o' icon-executing='fa fa-spinner fa-spin' icon-resolved='fa fa-check' executing='Submitting' resolved='Completed' rejected="Failed"}}
+</p></div>
+
+<pre>
+    <code class="handlebars">\{{em-button on-click='makeAsyncFailed' default='Sad Submit' executing='Submitting' resolved='Completed' rejected="Failed :/"}}</code>
+</pre>
+
+
+<p><div class="well">
+{{em-button on-click='makeAsyncFailed' default='Sad Submit' executing='Submitting' resolved='Completed' rejected="Failed :/"}}
+</p>
+</div>
+
+<pre>
+<code class="javascript">import Em from "ember";
+
+export default Em.Controller.extend({
+  message: void 0,
+  actions: {
+    onClick: function() {
+      return this.set('message', 'Clicked!');
+    },
+    makeAsync: function(setPromise) {
+      return setPromise(new Promise(function(res, rej) {
+        return Em.run.later(function() {
+          return res("YES");
+        }, 1500);
+      }));
+    },
+    makeAsyncFailed: function(setPromise) {
+      return setPromise(new Promise(function(res, rej) {
+        return Em.run.later(function() {
+          return rej("Server error...");
+        }, 1500);
+      }));
+    }
+  }
+});
+    </code>
+</pre>
+
+
+</div>
