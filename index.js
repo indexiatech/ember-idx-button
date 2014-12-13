@@ -30,12 +30,18 @@ module.exports = {
     },
 
     postprocessTree: function( type, tree ) {
-        return mergeTrees([ tree,
-            pickFiles( 'bower_components/fontawesome/fonts', {
-                srcDir  : '/',
-                files   : [ 'fontawesome-webfont.woff' ],
-                destDir : '/fonts'
-            })
-        ]);
+        var isDummy = (process.env.npm_package_name === 'ember-idx-button');
+
+        if (isDummy) {
+            return mergeTrees([ tree,
+                pickFiles( 'bower_components/fontawesome/fonts', {
+                    srcDir  : '/',
+                    files   : [ 'fontawesome-webfont.woff' ],
+                    destDir : '/fonts'
+                })
+            ]);
+        } else {
+            return tree;
+        }
     },
 };
