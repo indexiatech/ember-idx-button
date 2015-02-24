@@ -100,7 +100,7 @@ export default Em.Controller.extend({
     },
     makeAsync: function(setPromise) {
       return setPromise(new Promise(function(res, rej) {
-        return Em.run.later(function() {
+        return Em.run.later(function() 
           return res("YES");
         }, 1500);
       }));
@@ -117,5 +117,13 @@ export default Em.Controller.extend({
     </code>
 </pre>
 
+
+<p><div class="well">
+<p>It is possible to effect a button state externally, click the "Click This!" button and watch how it affects the \{{em-button}}</p>
+
+<p><div class="well">
+{{em-button default='Submit' executing='Submitting' resolved='Completed' rejected="Failed :/" promise=somePromise state=someState}}
+<button {{action 'someButton'}}>Click this!</button>
+</p>
 
 </div>
