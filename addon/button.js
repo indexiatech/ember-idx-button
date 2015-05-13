@@ -107,7 +107,7 @@ export default Em.Component.extend(WithConfigMixin, {
         _this.set('promise', promise);
         return _this.set('state', 'executing');
       };
-    })(this));
+    })(this), this);
     return false;
   }).on('click'),
 
